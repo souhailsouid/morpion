@@ -1,26 +1,20 @@
-export const Cells = {
-    EMPTY: Symbol('empty'),
-    X: Symbol('x'),
-    O: Symbol('o')
+import { Cells, Board } from './boardLogic'
+
+export class Game {
+  constructor () {
+    this.player = Cells.X
+    this.board = new Board()
+  }
+
+  getCurrentPlayer () {
+    return this.player
+  }
+
+  addPawn () {
+    this.player = this.player === Cells.O ? Cells.X : Cells.O
+  }
+
+  getCell () {
+    return Cells.X
+  }
 }
-Object.freeze(Cells)
-
-export class Grid {
-    constructor() {
-        this.cell = Cells.EMPTY
-    }
-
-    getCell(row, column) {
-        return this.cell
-    }
-
-    addPawn(row, column, pawn) {
-        if (row > 2) return false;
-        if (this.cell === Cells.EMPTY && pawn !== Cells.EMPTY) {
-            this.cell = pawn
-            return true
-        }
-        return false
-    }
-}
-

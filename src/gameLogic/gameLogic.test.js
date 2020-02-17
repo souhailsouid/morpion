@@ -1,62 +1,40 @@
-import { Grid, Cells } from './gameLogic';
+import { Game } from './gameLogic'
+import { Cells } from './boardLogic'
 
+describe('Rules', () => {
+  let game
+  beforeEach(() => {
+    game = new Game()
+  })
 
-describe('Game logic', () => {
+  it('first player is X', () => {
+    const player = game.getCurrentPlayer()
+    expect(player).toBe(Cells.X)
+  })
 
-    let grid
-    beforeEach(() => {
-        grid = new Grid();
-    })
+  it('second player is O', () => {
+    game.addPawn(0, 0)
+    const player = game.getCurrentPlayer()
+    expect(player).toBe(Cells.O)
+  })
 
-    describe('at the beginning', () => {
-        it('at least 1 cell is empty', () => {
-            const cell = grid.getCell(0, 0);
-            expect(cell).toBe(Cells.EMPTY);
-        });
-    })
+  it('alternates players', () => {
+    game.addPawn(1, 0)
+    game.addPawn(2, 0)
+    const player = game.getCurrentPlayer()
+    expect(player).toBe(Cells.X)
+  })
 
-    describe('when a pawn is added', () => {
+  it('adds a pawn that matches the current player', () => {
+    game.addPawn(0, 0)
+    const cell = game.getCell(0, 0)
+    expect(cell).toBe(Cells.X)
+  })
 
-        it(' we add a X the cell should contain a X', () => {
-            grid.addPawn(0, 0, Cells.X)
-            const cell = grid.getCell(0, 0);
-            expect(cell).toBe(Cells.X);
-        });
-
-        it(' when i can add a pawn grid.addPawn() returns true', () => {
-            expect(grid.addPawn(0, 0, Cells.X)).toBe(true);
-        });
-
-        it(' we add a O the cell should contain a O', () => {
-            grid.addPawn(0, 0, Cells.O);
-            const cell = grid.getCell(0, 0);
-            expect(cell).toBe(Cells.O);
-        });
-
-        it(' we cannot add a pawn in a cell that already contains a pawn', () => {
-            grid.addPawn(0, 0, Cells.O);
-            expect(grid.addPawn(0, 0, Cells.X)).toBe(false);
-        });
-
-        it(' we cannot add an empty pawn in a cell', () => {
-            expect(grid.addPawn(0, 0, Cells.EMPTY)).toBe(false);
-        });
-
-        it(' when i cannot add a pawn the cell remains unchanged', () => {
-            grid.addPawn(0, 0, Cells.O);
-            grid.addPawn(0, 0, Cells.X);
-            expect(grid.getCell(0, 0)).toBe(Cells.O);
-        });
-
-        it(' Cannot add a pawn outside the grid ', () => {
-            expect(grid.addPawn(3, 2, Cells.X)).toBe(false);
-        });
-
-    })
-
-});
-
-// Quand on pose un pion la case est remplie
-// On peut mettre soit des croix soit des ronds
-// On peut pas mettre deux pions dans la même case
-// On peut pas mettre de pion en dehors de la grille
+  it('adds a pawn that matches the current player', () => {
+    game.addPawn(0, 0)
+    game.addPawn(1, 0)
+    const cell = game.getCell(1, 0)
+    expect(cell).toBe(Cells.O)
+  })
+})
